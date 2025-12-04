@@ -6,6 +6,16 @@ export interface PatchNote {
 
 export const patchNotesData: PatchNote[] = [
   {
+    version: '0.1.8',
+    date: 'December 4, 2025',
+    changes: [
+      'Smarter Vocabulary Quizzes: Words with Kanji now test both reading and meaning',
+      'Kana-only words now strictly focus on meaning quizzes',
+      'Fixed level sorting in Collection Selector (numerical order)',
+      'Improved theme color generation system'
+    ]
+  },
+  {
     version: '0.1.7',
     date: 'December 3, 2025',
     changes: [
