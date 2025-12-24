@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { X, CircleCheck, Circle, Check, Trash2, Dices } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useClick } from '@/shared/hooks/useAudio';
 import { ActionButton } from '@/shared/components/ui/ActionButton';
 import { cn } from '@/shared/lib/utils';
@@ -205,41 +206,53 @@ const QuickSelectModal = ({
               {filteredSets.map(set => {
                 const isSelected = selectedSets.includes(set.name);
                 return (
-                  <ActionButton
+                  <motion.div
                     key={set.id}
-                    onClick={() => {
-                      playClick();
-                      onToggleSet(set.name);
+                    layout
+                    layoutId={set.id}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 500,
+                      damping: 35,
+                      mass: 1
                     }}
-                    colorScheme={isSelected ? 'main' : 'secondary'}
-                    borderColorScheme={isSelected ? 'main' : 'secondary'}
-                    borderRadius='3xl'
-                    borderBottomThickness={10}
-                    className={clsx(
-                      'flex flex-col items-center gap-2 p-3 sm:p-4',
-                      isSelected ? 'order-first' : 'opacity-40'
-                    )}
+                    className={clsx(isSelected ? 'order-first' : '')}
                   >
-                    {isSelected ? (
-                      <CircleCheck
-                        size={18}
-                        className='flex-shrink-0 fill-current text-[var(--background-color)]'
-                      />
-                    ) : (
-                      <Circle
-                        size={18}
-                        className='flex-shrink-0 text-[var(--background-color)]'
-                      />
-                    )}
-                    <span className='text-center text-xs font-medium sm:text-sm'>
-                      {set.name.replace('Set ', 'Level ')}
-                    </span>
-                    {set.isMastered && (
-                      <span className='text-[10px] opacity-70 sm:text-xs'>
-                        Mastered
+                    <ActionButton
+                      onClick={() => {
+                        playClick();
+                        onToggleSet(set.name);
+                      }}
+                      colorScheme={isSelected ? 'main' : 'secondary'}
+                      borderColorScheme={isSelected ? 'main' : 'secondary'}
+                      borderRadius='3xl'
+                      borderBottomThickness={10}
+                      className={clsx(
+                        'flex w-full flex-col items-center gap-2 p-3 sm:p-4',
+                        !isSelected && 'opacity-40'
+                      )}
+                    >
+                      {isSelected ? (
+                        <CircleCheck
+                          size={18}
+                          className='flex-shrink-0 fill-current text-[var(--background-color)]'
+                        />
+                      ) : (
+                        <Circle
+                          size={18}
+                          className='flex-shrink-0 text-[var(--background-color)]'
+                        />
+                      )}
+                      <span className='text-center text-xs font-medium sm:text-sm'>
+                        {set.name.replace('Set ', 'Level ')}
                       </span>
-                    )}
-                  </ActionButton>
+                      {set.isMastered && (
+                        <span className='text-[10px] opacity-70 sm:text-xs'>
+                          Mastered
+                        </span>
+                      )}
+                    </ActionButton>
+                  </motion.div>
                 );
               })}
             </div>
